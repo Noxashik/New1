@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Shooting Game</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: lightblue;
+            font-family: Arial, sans-serif;
+        }
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border: 2px solid black;
+            overflow: hidden;
+            background-image: url('https://i.imgur.com/w3LsF8k.jpg'); /* Optional background */
+            background-size: cover;
+        }
+        .cat {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+        }
+        #score {
+            font-size: 24px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cat Shooting Game</h1>
+    <p id="score">Score: 0</p>
+    <div id="game-container"></div>
+    <script>
+        const gameContainer = document.getElementById("game-container");
+        const scoreDisplay = document.getElementById("score");
+        let score = 0;
 
+        function createCat() {
+            const cat = document.createElement("img");
+            cat.src = "https://i.imgur.com/O3E6XxP.png"; // Cat image link
+            cat.classList.add("cat");
+
+            // Random position
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (400);
+            cat.style.left = `${x}px`;
+            cat.style.top = `${y}px`;
+
+            // Click event to shoot
+            cat.addEventListener("click", () => {
+                gameContainer.removeChild(cat);
+                score++;
+                scoreDisplay.innerText = `Score: ${score}`;
+                if (score >= 6) {
+                    alert("You Win!");
+                }
+            });
+
+            gameContainer.appendChild(cat);
+
+            // Remove cat after 2 seconds if not clicked
+            setTimeout(() => {
+                if (gameContainer.contains(cat)) {
+                    gameContainer.removeChild(cat);
+                }
+            }, 2000);
+        }
+
+        // Generate cats every second
+        setInterval(createCat, 1000);
+    </script>
+</body>
+</html>
